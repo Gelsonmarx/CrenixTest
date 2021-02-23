@@ -16,20 +16,19 @@ public class SlotItem : MonoBehaviour, IDropHandler
     public AssignObjects assignObjects;
 
 
-    [HideInInspector]
+   // [HideInInspector]
     public bool Filled;
 
     public void OnDrop(PointerEventData eventData)
     {
         if(!Filled)
-        {
+        {           
             assignObjects.Gear.SetActive(true);
-            assignObjects.Gear.GetComponent<Image>().color = eventData.pointerDrag.GetComponent<Image>().color;
-           
-            eventData.pointerDrag.GetComponent<DragItem>().BackPosition();
-            eventData.pointerDrag.SetActive(false);
+            assignObjects.Gear.GetComponent<Image>().color = eventData.pointerDrag.GetComponent<Image>().color;          
+            eventData.pointerDrag.GetComponent<DragItem>().BackPosition();           
+            eventData.pointerDrag.GetComponent<DragItem>().StartParent.gameObject.GetComponent<SlotItem>().Filled = false;           
             Filled = true;
-            
+            eventData.pointerDrag.SetActive(false);
             GameManager.Instance.CheckEndGame();
         } 
         

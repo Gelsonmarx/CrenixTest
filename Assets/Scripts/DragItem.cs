@@ -21,7 +21,8 @@ public class DragItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDrag
     RectTransform rect;
     CanvasGroup canvGroup;
     Vector2 StartPostion;
-    Transform StartParent;
+    [HideInInspector]
+    public Transform StartParent;
 
     private void Awake()
     {
@@ -47,19 +48,20 @@ public class DragItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDrag
     public void OnEndDrag(PointerEventData eventData)
     {
         
-        BackPosition();
+        BackPosition(eventData);
     }
 
-    public void BackPosition()
+    public void BackPosition(PointerEventData eventData = null)
     {
         transform.SetParent(StartParent);
-        StartParent.gameObject.GetComponent<SlotItem>().Filled = false;
         canvGroup.blocksRaycasts = true;
         canvGroup.alpha = 1;
         if (this.gameObject.activeSelf)
         {
             rect.anchoredPosition = StartPostion;
         }
+        
+        
     }
 
 }
